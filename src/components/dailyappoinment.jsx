@@ -15,6 +15,8 @@ export default function DailyAppointment() {
     const location = useLocation();
     const navigate = useNavigate();
 
+
+    
     const [error1,setError1]=useState(null);
 
     // Fetch timeslots based on selected date
@@ -58,9 +60,9 @@ export default function DailyAppointment() {
         }
     };
 
-    const handleAddRecord = (patientId, appoinmentID) => {
+    const handleAddRecord = (patientId, appoinmentID,patientno) => {
         navigate(`/dashboard/addrecord/${patientId}`, {
-            state: { appoinmentid: appoinmentID }
+            state: { appoinmentid: appoinmentID, channelnumber:patientno }
         });
     };
 
@@ -145,7 +147,7 @@ export default function DailyAppointment() {
                                         ) : (
                                             <button
                                                 className="action-button"
-                                                onClick={() => handleAddRecord(appointment.MAD_PATIENT_CODE, appointment.MAD_APPOINMENT_ID)}
+                                                onClick={() => handleAddRecord(appointment.MAD_PATIENT_CODE, appointment.MAD_APPOINMENT_ID,appointment.MAD_PATIENT_NO)}
                                             >
                                                 Add Treatment details
                                             </button>

@@ -274,8 +274,8 @@ export default function Registermedicine() {
                                     ref={(el) => (rowRefs.current[medicine.MMC_MATERIAL_CODE] = el)}
                                 >
                                     <td>{medicine.MMC_DESCRIPTION}</td>
-                                    <td>{medicine.MMC_UNIT}</td>
-                                    <td>{medicine.MMC_REORDER_LEVEL}</td>
+                                    <td >{medicine.MMC_UNIT}</td>
+                                    <td style={{ textAlign: "right" }}>{medicine.MMC_REORDER_LEVEL}</td>
                                     <td>{medicine.MMC_STATUS}</td>
                                     <td style={{ textAlign: "right" }}>
                                         {medicine.MMC_RATE.toFixed(2)}

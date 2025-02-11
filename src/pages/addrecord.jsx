@@ -10,6 +10,7 @@ const Addrecord = () => {
   const Name = localStorage.getItem("Name");
   const location = useLocation();
   const { appoinmentid } = location.state || {}; // Retrieve appoinmentid from the state
+  const { channelnumber} = location.state || {};
   const [medicines, setMedicines] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [patientError, setPatientError] = useState('');
@@ -30,6 +31,9 @@ const Addrecord = () => {
   ]);
   const [activePrescriptionIndex, setActivePrescriptionIndex] = useState(null);
 
+  console.log(channelnumber);
+  
+
   const [formData, setFormData] = useState({
     MTD_PATIENT_CODE: patientId,
     MTD_DATE: new Date().toISOString(),
@@ -49,6 +53,7 @@ const Addrecord = () => {
     MTD_CREATED_BY: Name || '',
     MTD_CREATED_DATE: new Date().toISOString(),
     MTD_UPDATED_BY: '',
+    MTD_CHANNEL_NO:channelnumber || "",
     MTD_UPDATED_DATE: null,
     MTD_APPOINMENT_ID: appoinmentid
   });
@@ -56,6 +61,7 @@ const Addrecord = () => {
   const [modalContent, setModalContent] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
 
   const handleFormChange = (e) => {
     const { id, value } = e.target;
@@ -134,7 +140,7 @@ const Addrecord = () => {
 
 
   // const handleRemovePrescription = (index) => {
-  //   const values = [...prescriptions];
+ //   const values = [...prescriptions];
   //   values.splice(index, 1);
   //   setPrescriptions(values);
 
@@ -145,7 +151,7 @@ const Addrecord = () => {
   //   }
 
 
-    
+     
   // };
 
 
@@ -306,6 +312,15 @@ const Addrecord = () => {
 
       if (isEditMode) {
         try {
+
+          
+
+
+
+
+
+
+
           // Prepare the payload for treatment and drugs
           const updatePayload = {
             Treatment: {
@@ -471,11 +486,19 @@ const Addrecord = () => {
   return (
     <div className="treatment-form-container">
 
+      
+
       <div className="header">
         <button className="back-button" onClick={() => navigate(-1)}>Back</button>
 
       </div>
       <h2> {isEditMode?"Edit treatment details" :"Add treatment details"}</h2>
+
+      {/* <p>Channel number: {channelnumber}</p> */}
+
+      {channelnumber && <p style={{ textAlign: 'center' }}>Channel number: {channelnumber}</p>}
+
+      
       <p className="subheading">
         Fill in the treatment and prescription information below.
       </p>
@@ -531,7 +554,7 @@ const Addrecord = () => {
                 onChange={(event) => handleSearchChange(index, event)}
                 onFocus={() => setActivePrescriptionIndex(index)}
                 disabled={prescription.isFetched}
-                required
+                required={!isEditMode} 
 
 
               />
@@ -561,7 +584,7 @@ const Addrecord = () => {
                 name="MDD_TAKES"
                 value={prescription.MDD_TAKES}
                 onChange={(event) => handlePrescriptionChange(index, event)}
-                required
+                required={!isEditMode} 
               >
                 <option value="not-define">How to Take</option>
                 <option value="Daily">Daily</option>
@@ -594,7 +617,7 @@ const Addrecord = () => {
                 onChange={(event) => handlePrescriptionChange(index, event)}
                 placeholder="Quantity"
                 min="1"
-                required
+                required={!isEditMode} 
               />
 
               {/* Remove Button */}
@@ -631,19 +654,7 @@ const Addrecord = () => {
         </div>
 
         <div className="form-rowx">
-          {/* <div className="form-group-half-width1">
-            <label htmlFor="MTD_MEDICAL_STATUS">Medical Condition</label>
-            <select
-              id="MTD_MEDICAL_STATUS"
-              value={formData.MTD_MEDICAL_STATUS}
-              onChange={handleFormChange}
-              required
-            >
-              <option value="">Select Medical Condition</option>
-              <option value="S">Stable</option>
-              <option value="C">Critical</option>
-            </select>
-          </div> */}
+          
 
           <div className="form-group-half-width1">
             <label htmlFor="MTD_TREATMENT_STATUS">Treatment Status</label>

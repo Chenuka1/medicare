@@ -112,7 +112,7 @@ export default function Home() {
 
 
             </p>
-            <button onClick={openup}>Book appointment</button>
+            <button onClick={openup}>Book appointment </button>
           </div>
 
 

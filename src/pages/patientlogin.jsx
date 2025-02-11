@@ -32,6 +32,12 @@ export default function Patientlogin() {
   };
 
   const sendOtp = async () => {
+
+    if (!validateContact(contact)) {
+      setErrorMessage("Please enter a valid 10-digit mobile number starting with 6-9.");
+      return;
+    }
+
     const userExists = await checkUserExists(contact);
     if (!userExists) return;
 
@@ -59,6 +65,12 @@ export default function Patientlogin() {
     }
   };
 
+
+
+
+
+
+  
 
 
   const proceedWithLogin = async () => {
@@ -142,6 +154,7 @@ export default function Patientlogin() {
               type="text"
               placeholder="Please enter your contact"
               value={contact}
+              max={10}
               onChange={(e) => setContact(e.target.value)}
             />
           </div>

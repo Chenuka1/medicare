@@ -647,3 +647,40 @@ input{
     border-color: #ff0000; /* Optional: Highlight border on hover */
   
 }
+
+
+.btn-containers {
+    display: flex;
+    flex-direction: column; /* Default to column */
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* When the screen is wider than 768px, change to row layout */
+@media (min-width: 768px) {
+    .btn-containers {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+}
+.actions-container {
+    display: flex;
+    
+    
+   
+}
+
+/* Media Query for mobile responsiveness */
+@media (max-width: 768px) {
+    .actions-container {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items */
+    }
+}
+
+.actions-container button {
+   
+   
+    white-space: nowrap; /* Prevents text from breaking */
+}

@@ -90,10 +90,10 @@ function App() {
             <Route path="pharmacy" element={<ProtectedRoute element={Pharmacy} roles={['Doc', 'Admin', 'Phuser']} />} />
             <Route path="Add-users" element={<ProtectedRoute element={Adduser} roles={['Doc', 'Phuser', 'Admin','Phuser']} />} />
             <Route path="pharmacy-invoice/:patientId/:serial_no" element={<Pharmacyinvoice />} />
-            <Route path="daily-appoinments" element={<ProtectedRoute element={Dailyappoinment} roles={['Doc']} />} />
+            <Route path="daily-appoinments" element={<ProtectedRoute element={Dailyappoinment} roles={['Doc','Admin']} />} />
             <Route path="doctor-profile" element={<ProtectedRoute element={Doctorprofile} roles={['Doc', 'Admin','Phuser']} />} />
             <Route path="patientdetails/:patientId" element={<ProtectedRoute element={Patientdetails} roles={['Doc', 'Admin']} />} />
-            {/* <Route path="editrecord"  element={<Editrecord/>}/> */}
+            
           </Route>
         </Routes>
       </BrowserRouter>

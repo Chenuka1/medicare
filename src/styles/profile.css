@@ -237,3 +237,10 @@
 
 
 
+@media (max-width: 768px) {
+  .profile-container .appointments-table {
+      overflow-x: auto;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+  }
+}

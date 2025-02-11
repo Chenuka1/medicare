@@ -249,19 +249,11 @@ export default function MedicalHistory() {
                                     <td>{calculateAge(patient.MPD_BIRTHDAY)}</td>
 
 
-                                    <td>
+                                    <td colSpan={4}>
 
-                                        <div className='btn-cotainers'>
-                                            <div className="dropdown">
-                                                {/* <button className="dropdown-toggle action-button">
-                                            Actions <i className="fas fa-chevron-down"></i>
-                                            </button> */}
-                                                {/* <div className="dropdown-menu">
-                                                <button onClick={() => viewPatient(patient.MPD_PATIENT_CODE)}>View  Details</button>
+                                        <div className='actions-container '>
+                                            
                                                
-                                                <button onClick={() => handleDelete(patient.MPD_PATIENT_CODE)}>Delete Patient</button>
-                                            </div> */}
-                                            </div>
 
                                             <button className="action-button" onClick={() => viewPatient(patient.MPD_PATIENT_CODE)}>View  Details</button>
 

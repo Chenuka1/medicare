@@ -125,7 +125,7 @@ const Addtimeslot = () => {
 
   const fetchTimeslots = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/Timeslot`);
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/Timeslot/active-timeslots`);
       // Reverse the timeslot data so that the latest comes first
       const reversedTimeslots = response.data.reverse();
       setTimeslotData(reversedTimeslots);
@@ -137,12 +137,14 @@ const Addtimeslot = () => {
 
 
   const Deletetime = async (id) => {
-    if (window.confirm("Are you sure you want to delete this timeslot?")) {
+    if (window.confirm("Are you sure you want to inactive timeslot?")) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/Timeslot/${id}`);
-        alert("Timeslot deleted successfully");
+       
+        await axios.put(`${process.env.REACT_APP_API_BASE_URL}/Timeslot/update-status/${id}`);
+        alert("Timeslot Inactivated");
+        window.location.Reload();
         // Update timeslot data after deletion
-        setTimeslotData(timeslotData.filter((timeslot) => timeslot.MT_SLOT_ID !== id));
+        // setTimeslotData(timeslotData.filter((timeslot) => timeslot.MT_SLOT_ID !== id));
       } catch (error) {
         console.error("Error deleting timeslot:", error.response?.data || error.message);
         alert("Failed to delete timeslot.");
