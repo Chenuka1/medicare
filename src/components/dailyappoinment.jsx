@@ -141,7 +141,7 @@ export default function DailyAppointment() {
                                             minute: 'numeric',
                                             hour12: true,
                                         })}</td>
-                                        <td>{appointment.MAD_PATIENT_NO}</td>
+                                        <td style={{textAlign:"right"}}>{appointment.MAD_PATIENT_NO}</td>
                                         <td>{appointment.IsCompleted ? (
                                             <span className="completed-label">Completed</span>
                                         ) : (

@@ -23,17 +23,19 @@ const Addpatient = ({ patientCode }) => {
         MPD_CREATED_BY: Name,
         MPD_UPDATED_BY: '',
         MPD_BIRTHDAY: null,
-        MPD_GENDER:'',
+        MPD_GENDER: '',
         MPD_CREATED_DATE: new Date().toISOString(),
         MPD_UPDATED_DATE: null,
     });
+    const role = localStorage.getItem('Role'); 
+
 
     const [errorMessage, setErrorMessage] = useState('');
     const [formErrors, setFormErrors] = useState({
         email: '',
         contact: '',
         nic: '',
-        guardianContact: '', 
+        guardianContact: '',
     });
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -70,7 +72,7 @@ const Addpatient = ({ patientCode }) => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         let errors = { ...formErrors };
-    
+
         // Allow empty email without error
         if (name === 'MPD_EMAIL') {
             errors.email = value.trim() === '' || validateEmail(value) ? '' : 'Invalid email format';
@@ -84,15 +86,15 @@ const Addpatient = ({ patientCode }) => {
         if (name === 'MPD_NIC_NO') {
             errors.nic = value.trim() === '' || validateNIC(value) ? '' : 'Invalid NIC format';
         }
-    
+
         setFormData({
             ...formData,
             [name]: value,
         });
         setFormErrors(errors);
     };
-    
-    
+
+
 
     const validateEmail = (email) => {
 
@@ -113,11 +115,11 @@ const Addpatient = ({ patientCode }) => {
         setErrorMessage('');
 
         // Check if there are any errors before submitting
-    if (formErrors.email || formErrors.contact || formErrors.nic) {
-        setErrorMessage('Please correct the errors before submitting the form.');
-        return;
-      }
-  
+        if (formErrors.email || formErrors.contact || formErrors.nic) {
+            setErrorMessage('Please correct the errors before submitting the form.');
+            return;
+        }
+
         try {
             if (isEditMode) {
                 // Update patient data
@@ -199,7 +201,7 @@ const Addpatient = ({ patientCode }) => {
                                     name="MPD_CITY"
                                     value={formData.MPD_CITY}
                                     onChange={handleChange}
-                                    
+
                                 />
                             </div>
                             <div className="form-group">
@@ -209,7 +211,7 @@ const Addpatient = ({ patientCode }) => {
                                     name="MPD_GUARDIAN"
                                     value={formData.MPD_GUARDIAN}
                                     onChange={handleChange}
-                                
+
                                 />
                             </div>
                             <div className="form-group">
@@ -219,7 +221,7 @@ const Addpatient = ({ patientCode }) => {
                                     name="MPD_GUARDIAN_CONTACT_NO"
                                     value={formData.MPD_GUARDIAN_CONTACT_NO}
                                     onChange={handleChange}
-                                    
+
                                 />
                                 {formErrors.guardianContact && <div className="error-message">{formErrors.guardianContact}</div>}
                             </div>
@@ -230,7 +232,7 @@ const Addpatient = ({ patientCode }) => {
                                     name="MPD_BIRTHDAY"
                                     value={formData.MPD_BIRTHDAY}
                                     onChange={handleChange}
-                                
+
                                 />
                             </div>
                             <div className='form-group'>
@@ -240,7 +242,7 @@ const Addpatient = ({ patientCode }) => {
                                     name="MPD_EMAIL"
                                     value={formData.MPD_EMAIL}
                                     onChange={handleChange}
-                                
+
                                 />
                                 {formErrors.email && <div className="error-message">{formErrors.email}</div>}
                             </div>
@@ -248,10 +250,10 @@ const Addpatient = ({ patientCode }) => {
                             <div className='form-group'>
                                 <label>Gender</label>
                                 <select
-                                  name="MPD_GENDER"
-                                  value={formData.MPD_GENDER}
-                                  onChange={handleChange}
-                                   
+                                    name="MPD_GENDER"
+                                    value={formData.MPD_GENDER}
+                                    onChange={handleChange}
+
                                 >
                                     <option value="">Select gender</option>
                                     <option value="Male">Male</option>
@@ -270,9 +272,20 @@ const Addpatient = ({ patientCode }) => {
                             style={{ height: "100px", border: '1px solid #cccccc' }}
                         />
                     </div>
-                    <button type="submit" style={{ marginBottom: "20px" }} className="submit-button">
-                        {isEditMode ? 'Update details' : 'Register'}
+                    <button
+                        type="submit"
+                        style={{ marginBottom: "20px" }}
+                        className="submit-button"
+                        onClick={(e) => {
+                            if (role !== "Doc" &&  role !== "Admin") {
+                                e.preventDefault(); // Prevent form submission
+                                alert("Sorry you dont have permission to edit details.");
+                            }
+                        }}
+                    >
+                        {isEditMode ? "Update details" : "Register"}
                     </button>
+
                 </form>
             </div>
         </div>

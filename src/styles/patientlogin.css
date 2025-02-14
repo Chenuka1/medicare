@@ -244,6 +244,7 @@
 .list label {
   font-size: 1rem;
   color: #555;
+  text-align: left;
 }
 
 .list input[type="checkbox"] {

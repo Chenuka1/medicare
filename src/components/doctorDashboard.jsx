@@ -39,7 +39,7 @@ export default function Doctordashboard() {
                     />
                 </div>
                 <ul className="menu">
-                    {['Doc', 'Admin'].includes(role) && (
+                    {['Doc', 'Admin','Phuser'].includes(role) && (
                         <li>
                             <NavLink
                                 to="/dashboard/medical-history"
@@ -85,7 +85,7 @@ export default function Doctordashboard() {
                             <FontAwesomeIcon icon={faUserMd} /> {isOpen && 'User Profile'}
                         </NavLink>
                     </li>
-                    {(role === 'Doc' || role === 'Admin') && (
+                    {(role === 'Doc' || role === 'Admin' || role ==='Phuser') && (
                         <li>
                             <NavLink
                                 to="daily-appointments"

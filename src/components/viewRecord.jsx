@@ -15,20 +15,21 @@ export default function ViewRecord() {
     const [patientError, setPatientError] = useState('');
     const [treatmentpopup1, setTreatmentpopup1] = useState('');
     const [updatedtreatmentpopup, setUpdatedtreatmentpopup] = useState('');
-    const [treatmentnumber,setTreatmentnumber]= useState('');
+    const [treatmentnumber, setTreatmentnumber] = useState('');
+    const role = localStorage.getItem('Role'); 
 
     const handleContinue = () => {
         navigate(`/dashboard/remark/${patientId}/${serial_no}`);
     };
 
-    const handleinvoice = (patientId,serial_no) => {
+    const handleinvoice = (patientId, serial_no) => {
 
 
         navigate(`/dashboard/invoice/${patientId}/${serial_no}`);
     }
 
 
-    const handleRemarks = () =>{
+    const handleRemarks = () => {
 
         navigate(`/dashboard/remark/${patientId}/${serial_no}`);
     }
@@ -64,7 +65,7 @@ export default function ViewRecord() {
 
 
 
-       
+
 
         fetchPatientDetails();
     }, [patientId, serial_no]);
@@ -108,7 +109,14 @@ export default function ViewRecord() {
 
 
 
-                    <p style={{textAlign:"center", fontWeight:"bold"}}>Treatment number: {details.Treatmentnumber}</p>
+                    {/* <p style={{textAlign:"center", fontWeight:"bold"}}>Treatment number: {details.Treatmentnumber}</p> */}
+
+                    {details.MTD_CHANNEL_NO && (
+                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
+                            Channel number: {details.MTD_CHANNEL_NO}
+                        </p>
+                    )}
+
 
                     <div className="details-header">
                         <p>
@@ -148,15 +156,15 @@ export default function ViewRecord() {
                         <table className="prescription-table">
                             <thead>
                                 <tr>
-                                    <th style={{textAlign:"left"}}>Drug Name</th>
-                                    <th style={{textAlign:"left"}}>Quantity</th>
-                                    <th style={{textAlign:"left"}}>Takes</th>
+                                    <th style={{ textAlign: "left" }}>Drug Name</th>
+                                    <th style={{ textAlign: "left" }}>Quantity</th>
+                                    <th style={{ textAlign: "left" }}>Takes</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {details.Drugs.map((drug, index) => (
                                     <tr key={index}>
-                                       <td style={{ textAlign: "left" }}> {drug.DrugName}</td>
+                                        <td style={{ textAlign: "left" }}> {drug.DrugName}</td>
                                         <td style={{ textAlign: "right" }}>{drug.MDD_QUANTITY}</td>
                                         <td style={{ textAlign: "left" }}>{drug.MDD_TAKES}</td>
                                     </tr>
@@ -197,22 +205,32 @@ export default function ViewRecord() {
 
                     <div className='btn-container1'>
 
-                        
+
 
 
 
                         <button
                             className="edit-btn"
                             onClick={() => handleupdate(details.MTD_SERIAL_NO)}
+                            disabled={!(role === "Admin" || role === "Doc")}
+                            style={{
+                                cursor: !(role === "Admin" || role === "Doc") ? "not-allowed" : "pointer",
+                                backgroundColor: !(role === "Admin" || role === "Doc") ? "#ccc" : "#007bff",
+                                color: !(role === "Admin" || role === "Doc") ? "#666" : "#fff",
+                                border: "none",
+                                padding: "10px 20px",
+                                borderRadius: "5px",
+                                transition: "0.3s"
+                            }}
                         >
                             Edit details
                         </button>
 
 
                         <button
-                        className='continue-button'
-                        onClick={()=> handleRemarks(details.MTD_PATIENT_CODE,details.MTD_SERIAL_NO)}
-                        
+                            className='continue-button'
+                            onClick={() => handleRemarks(details.MTD_PATIENT_CODE, details.MTD_SERIAL_NO)}
+
                         >
 
                             Remarks
@@ -223,22 +241,17 @@ export default function ViewRecord() {
 
                         </button>
 
-                    
 
 
-                        <button 
-                         className='continue-button'
-                         onClick={() => handleinvoice(details.MTD_PATIENT_CODE,details.MTD_SERIAL_NO)}
-                         
-                         
-                         >Invoice</button>
+
+                        <button
+                            className='continue-button'
+                            onClick={() => handleinvoice(details.MTD_PATIENT_CODE, details.MTD_SERIAL_NO)}
 
 
-                       
+                        >Invoice</button>
+
                     </div>
-
-
-
 
                 </div>
             </div>

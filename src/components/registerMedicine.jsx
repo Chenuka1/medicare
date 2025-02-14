@@ -52,6 +52,8 @@ export default function Registermedicine() {
             [name]: value,
         });
     };
+// const [Token]=localStorage.getItem("");
+
 
 
 

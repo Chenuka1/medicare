@@ -13,13 +13,23 @@ export default function Navbar() {
 
     useEffect(() => {
         const email = localStorage.getItem('Email');
-        if (email) {
-            const extractInitials = (email) => {
-                const nameParts = email.split('@')[0];
-                return nameParts[0] + nameParts[1];
-            };
-            setInitials(extractInitials(email));
-        }
+
+        const Name=localStorage.getItem('Name');
+        
+        // if (email) {
+        //     const extractInitials = (email) => {
+        //         const nameParts = email.split('@')[0];
+        //         return nameParts[0] + nameParts[1];
+        //     };
+        //     setInitials(extractInitials(email));
+        // }
+
+        if (Name) {
+        const extractInitials = (name) => {
+            return name.slice(0, 2); // Extracts the first two letters
+        };
+        setInitials(extractInitials(Name));
+    }
     }, []);
 
     const toggleMenu = () => {

@@ -140,3 +140,21 @@
     font-size: 14px;
   }
 }
+@media (max-width: 768px) {
+  .user-registration .form-group input[type="date"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      appearance: none; /* Removes default styles on some browsers */
+  }
+
+  /* Ensuring better spacing inside the input */
+  .user-registration .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      font-size: 18px;
+      padding: 10px;
+  }
+}

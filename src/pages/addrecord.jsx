@@ -18,6 +18,7 @@ const Addrecord = () => {
   const serialNumber = location.state?.serialNumber || null;
   const [isEditMode, setIsEditMode] = useState(false);
   console.log(serialNumber);//check serial number
+  const role = localStorage.getItem('Role'); 
   const [prescriptions, setPrescriptions] = useState([
     {
       MDD_MATERIAL_CODE: '',
@@ -53,7 +54,7 @@ const Addrecord = () => {
     MTD_CREATED_BY: Name || '',
     MTD_CREATED_DATE: new Date().toISOString(),
     MTD_UPDATED_BY: '',
-    MTD_CHANNEL_NO:channelnumber || "",
+    MTD_CHANNEL_NO:channelnumber || null,
     MTD_UPDATED_DATE: null,
     MTD_APPOINMENT_ID: appoinmentid
   });
@@ -139,20 +140,7 @@ const Addrecord = () => {
   };
 
 
-  // const handleRemovePrescription = (index) => {
- //   const values = [...prescriptions];
-  //   values.splice(index, 1);
-  //   setPrescriptions(values);
-
-  //   if(isEditMode){
-
-
-  //     axios.put(``)
-  //   }
-
-
-     
-  // };
+ 
 
 
   //purpose to update drug status is updat
@@ -330,6 +318,7 @@ const Addrecord = () => {
               MTD_DIAGNOSTICS: formData.MTD_DIAGNOSTICS,
               MTD_REMARKS: formData.MTD_REMARKS,
               MTD_AMOUNT: formData.MTD_AMOUNT,
+              MTD_UPDATED_BY:Name,
               MTD_TREATMENT_STATUS: formData.MTD_TREATMENT_STATUS,
             },
             Drugs: preparedPrescriptions.map((prescription) => ({
@@ -399,6 +388,17 @@ const Addrecord = () => {
         ) {
           const drugDetailsPromises = preparedPrescriptions.map((prescription) => {
             if (prescription.MDD_MATERIAL_CODE) {
+
+              if (
+                !prescription.MDD_MATERIAL_CODE ||
+                !prescription.MDD_TAKES ||
+                !prescription.MDD_QUANTITY
+              ) {
+                alert("All  drug  details are required.");
+                return;
+              }
+
+
               //This api used to submit for drug table separately
               return axios.post(`${process.env.REACT_APP_API_BASE_URL}/Drug`, {
                 MDD_MATERIAL_CODE: prescription.MDD_MATERIAL_CODE,
@@ -472,8 +472,9 @@ const Addrecord = () => {
         'Error submitting record:',
         error.response?.data || error.message
       );
+      alert("Error submitting treatment and prescription");
       setModalContent('Error submitting treatment and prescription details.');
-      setIsModalOpen(true);
+      // setIsModalOpen(true);
     } finally {
       setLoading(false);
     }
@@ -509,7 +510,6 @@ const Addrecord = () => {
         <p>
           {/* <strong>Patient name:</strong> {patientdetails ? patientdetails.MPD_PATIENT_NAME : 'Loading'}<br></br> */}
           {/* <strong>Treatment number: {treatmentamout >= 0 ? treatmentamout : "N/A"}</strong> */}
-
 
         </p>
       </div>
@@ -606,7 +606,7 @@ const Addrecord = () => {
                   value={prescription.MDD_TAKES_CUSTOM}
                   onChange={(event) => handlePrescriptionChange(index, event)}
                   placeholder="Specify how to take"
-                  required
+                  // required
                 />
               )}
               {/* Quantity Input */}
@@ -684,7 +684,23 @@ const Addrecord = () => {
             />
           </div>
         </div>
-        <button type="submit">{isEditMode ? 'Update treatment' : 'Submit'}</button>
+        <button 
+    type="submit" 
+    className="submit-button"
+    disabled={!(role === "Admin" || role === "Doc")}
+    style={{
+        cursor: !(role === "Admin" || role === "Doc") ? "not-allowed" : "pointer",
+        backgroundColor: !(role === "Admin" || role === "Doc") ? "#ccc" : "#007bff",
+        color: !(role === "Admin" || role === "Doc") ? "#666" : "#fff",
+        border: "none",
+        padding: "10px 20px",
+        borderRadius: "5px",
+        transition: "0.3s"
+    }}
+>
+    {isEditMode ? 'Update Treatment' : 'Submit'}
+</button>
+
       </form>
 
       <Modal isOpen={isModalOpen} onRequestClose={closeModal}>

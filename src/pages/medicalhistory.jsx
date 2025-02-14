@@ -21,6 +21,8 @@ export default function MedicalHistory() {
 
     const [remarkpopup, setremarkPopup] = useState(null)
 
+    const role = localStorage.getItem('Role'); 
+
     // Define the fetchAllPatients function
     const fetchAllPatients = async () => {
         setIsLoading(true);
@@ -37,9 +39,6 @@ export default function MedicalHistory() {
             setIsLoading(false);
         }
     };
-
-
-    
 
     // Fetch all patients when the component mounts
     useEffect(() => {
@@ -88,7 +87,6 @@ export default function MedicalHistory() {
         }
     };
 
-
     const handleAddRecord = (patientId) => {
         setTreatmentPopup(null);
         navigate(`/dashboard/addrecord/${patientId}`);
@@ -122,8 +120,8 @@ export default function MedicalHistory() {
             );
         } catch (error) {
             console.error('Error fetching treatment details:', error);
-            setErrorMessage('No treatments available.');
-            setTreatmentPopup(null);
+            alert("Still there are no treatments available for this patient")
+
         }
     };
 
@@ -136,15 +134,10 @@ export default function MedicalHistory() {
     };
 
 
-
-
-
     // viewPatient function
     const viewPatient = (patientCode) => {
         setPopup(<Addpatient patientCode={patientCode} />);  // Pass patientCode as a prop to Addpatient
     };
-
-
 
 
     const handleDelete = async (id) => {
@@ -170,14 +163,6 @@ export default function MedicalHistory() {
             }
         }
     };
-
-
-
-
-
-
-
-
     const calculateAge = (birthdate) => {
         if (!birthdate) return 'N/A';
         const birthDateObj = new Date(birthdate);
@@ -252,28 +237,43 @@ export default function MedicalHistory() {
                                     <td colSpan={4}>
 
                                         <div className='actions-container '>
-                                            
-                                               
+
+
 
                                             <button className="action-button" onClick={() => viewPatient(patient.MPD_PATIENT_CODE)}>View  Details</button>
 
                                             <button
                                                 className="action-button"
                                                 onClick={() => handleAddRecord(patient.MPD_PATIENT_CODE)}
+
+                                                // disabled={!(role === "Admin" || role === "Doc")}
+
+                                                
+
+
+
+                                                
                                             >
                                                 <i className="fas fa-plus"></i> Add Treatment
                                             </button>
 
                                             <button
                                                 className="action-button"
-                                                onClick={() => handleViewRecord(patient.MPD_PATIENT_CODE)}
+
+
+
+                                                onClick={() => {
+                                                    // if (role === "Admin" || role === "Doc") {
+                                                    //     handleViewRecord(patient.MPD_PATIENT_CODE);
+                                                    // } else {
+                                                    //     alert("You do not have permission to view this.");
+                                                    // }
+                                                    handleViewRecord(patient.MPD_PATIENT_CODE);
+                                                }}
+                                                // disabled={!(role === "Admin" || role === "Doc")}
                                             >
                                                 <i className="fas fa-eye"></i> View Treatments
                                             </button>
-
-
-
-
 
 
                                         </div>
@@ -314,8 +314,6 @@ export default function MedicalHistory() {
                     </div>
                 </div>
             )}
-
-
 
 
             {patientPopup && (

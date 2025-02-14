@@ -570,12 +570,22 @@ input{
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 5px; */
 }
-.complain-text {
+/* .complain-text {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-line-clamp: 2; 
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis at the end of the truncated text */
+    text-overflow: ellipsis; 
+    white-space: normal;
+} */
+
+
+.complain-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: normal;
 }
 

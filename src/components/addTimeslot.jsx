@@ -142,7 +142,8 @@ const Addtimeslot = () => {
        
         await axios.put(`${process.env.REACT_APP_API_BASE_URL}/Timeslot/update-status/${id}`);
         alert("Timeslot Inactivated");
-        window.location.Reload();
+        window.location.reload();
+
         // Update timeslot data after deletion
         // setTimeslotData(timeslotData.filter((timeslot) => timeslot.MT_SLOT_ID !== id));
       } catch (error) {
@@ -222,17 +223,7 @@ const Addtimeslot = () => {
             />
 
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {/* {suggestions.length > 0 ? (
-              <ul className="doctor-suggestions">
-                {suggestions.map((doctorName, index) => (
-                  <li key={index} onClick={() => handleSuggestionClick(doctorName)}>
-                    {doctorName}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              query.length > 2 && !errorMessage && <p className="no-doctors"></p>
-            )} */}
+            
 
             {suggestions.length > 0 ? (
               <ul className="doctor-suggestions">

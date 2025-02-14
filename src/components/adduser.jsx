@@ -209,12 +209,12 @@ const Adduser = () => {
           <tbody>
             {filteredUsers.map((user) => (
               <tr key={user.MUD_USER_ID}>
-                <td>{user.MUD_USER_ID || 'NOT valid'}</td>
-                <td>{user.MUD_USER_NAME || 'NOT valid'}</td>
-                <td>{user.MUD_EMAIL || 'NOT valid'}</td>
-                <td>{mapUserCategory(user.MUD_USER_TYPE) || 'NOT valid'}</td>
+                <td>{user.MUD_USER_ID || 'Not valid'}</td>
+                <td>{user.MUD_USER_NAME || 'Not valid'}</td>
+                <td>{user.MUD_EMAIL || 'Not valid'}</td>
+                <td>{mapUserCategory(user.MUD_USER_TYPE) || 'Not valid'}</td>
                 <td>{user.MUD_FULL_NAME}</td>
-                <td>{user.MUD_SPECIALIZATION || 'NOT valid'}</td>
+                <td>{user.MUD_SPECIALIZATION || 'Not valid'}</td>
                 <td>
                   <button className='btn-delete' onClick={() => Deleteuser(user.MUD_USER_ID)}>
                     <MdDelete />
@@ -283,6 +283,7 @@ const Adduser = () => {
                   placeholder='Enter your  name'
                   name="MUD_FULL_NAME"
                   value={formData.MUD_FULL_NAME}
+                  onChange={handleChange} 
                   required
 
                 />

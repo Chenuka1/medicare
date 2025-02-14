@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -5,6 +6,7 @@ import '../styles/profile.css';
 
 export default function Profile() {
   const [userAppointments, setUserAppointments] = useState([]);
+  const [displayedAppointments, setDisplayedAppointments] = useState([]); // New state for displayed appointments
   const email1 = localStorage.getItem("Email");
   const [profiledata, setProfiledata] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -15,10 +17,21 @@ export default function Profile() {
   const [mobilerror, setMobilerror] = useState("");
   const [nicerror, setNicerror] = useState("");
   const patientid = localStorage.getItem("PatientCode");
-
-
   const navigate = useNavigate(); // Initialize useNavigate
-  console.log(patientid);
+
+  const [showAllAppointments, setShowAllAppointments] = useState(false); // New state to track the toggle
+
+
+
+  const handleToggleAppointments = () => {
+    if (showAllAppointments) {
+      setDisplayedAppointments(userAppointments.slice(0, 5)); // Show only first 5
+    } else {
+      setDisplayedAppointments(userAppointments); // Show all appointments
+    }
+    setShowAllAppointments(!showAllAppointments); // Toggle the state
+  };
+
   const fetchAppointmentDetails = async () => {
     if (email1) {
       try {
@@ -26,6 +39,7 @@ export default function Profile() {
           `${process.env.REACT_APP_API_BASE_URL}/Appointment/getappointment/patientcode?patientcode=${patientid}`
         );
         setUserAppointments(response.data);
+        setDisplayedAppointments(response.data.slice(0, 5)); // Initially display the first 5 appointments
       } catch (error) {
         console.error("Error fetching appointment details:", error);
       }
@@ -78,14 +92,11 @@ export default function Profile() {
     if (name === "MPD_NIC_NO") {
       if (value.length !== 10 && value.length !== 12) {
         setNicerror("NIC must be 10 or 12 characters long.");
-
       } else {
         setNicerror("");
       }
     }
-
   };
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -96,15 +107,13 @@ export default function Profile() {
   const handleSave = async (e) => {
     e.preventDefault();
 
-
     if (emailerror || mobilerror || nicerror) {
-
-      alert("please correct the errors befor updating the profile");
+      alert("Please correct the errors before updating the profile.");
       return;
     }
 
     const formData = new FormData();
-    Object.keys(updatedProfile).forEach(key => {
+    Object.keys(updatedProfile).forEach((key) => {
       if (updatedProfile[key] !== null) {
         formData.append(key, updatedProfile[key]);
       }
@@ -126,6 +135,10 @@ export default function Profile() {
     } catch (error) {
       console.error("Error updating profile:", error);
     }
+  };
+
+  const handleShowAllAppointments = () => {
+    setDisplayedAppointments(userAppointments); // Show all appointments when button is clicked
   };
 
   useEffect(() => {
@@ -216,7 +229,6 @@ export default function Profile() {
                 value={updatedProfile?.MPD_NIC_NO || 'NIC not available'}
                 onChange={handleInputChange}
               />
-
               {nicerror && <p className="error-message">{nicerror}</p>}
             </div>
 
@@ -236,26 +248,24 @@ export default function Profile() {
           <h2 className="section-title">Your Appointments</h2>
 
           <div className="user-appoiment-table">
-
-            {userAppointments.length > 0 ? (
+            {displayedAppointments.length > 0 ? (
               <table className="appointments-table">
                 <thead>
                   <tr>
                     <th>Doctor</th>
-
                     <th>Date</th>
                     <th>Doctor available time</th>
                     <th>Your time</th>
-                    <th>status</th>
-
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {userAppointments.map((appointment, index) => (
+                  {displayedAppointments.map((appointment, index) => (
                     <tr key={index}>
                       <td>Dr {appointment.MAD_DOCTOR}</td>
-
-                      <td style={{textAlign:"center"}}>{new Date(appointment.MAD_APPOINMENT_DATE).toISOString().split("T")[0]}</td>
+                      <td style={{ textAlign: "center" }}>
+                        {new Date(appointment.MAD_APPOINMENT_DATE).toISOString().split("T")[0]}
+                      </td>
                       <td>
                         {new Date(`1970-01-01T${appointment.MAD_START_TIME}`).toLocaleTimeString('en-LK', {
                           timeZone: 'Asia/Colombo',
@@ -271,20 +281,16 @@ export default function Profile() {
                           hour12: true
                         })}
                       </td>
-
                       <td>{new Date(`1970-01-01T${appointment.MAD_ALLOCATED_TIME}`).toLocaleTimeString('en-LK', {
                         timeZone: 'Asia/Colombo',
                         hour: 'numeric',
                         minute: 'numeric',
                         hour12: true
                       })}</td>
-
-
                       <td style={{
                         backgroundColor: appointment.TreatmentStatus === "Completed" ? "green" : "#FF474D",
                         color: "white",
                       }}>{appointment.TreatmentStatus}</td>
-
                     </tr>
                   ))}
                 </tbody>
@@ -292,12 +298,17 @@ export default function Profile() {
             ) : (
               <p>No appointments found.</p>
             )}
-
-
           </div>
 
+          {/* Show 'Show All' button if there are more than 5 appointments */}
+          {userAppointments.length > 5 && (
+            <button onClick={handleToggleAppointments} className="show-all-button">
+              {showAllAppointments ? "Show Less" : "Show More"}
+            </button>
+          )}
         </section>
       </div>
     </div>
   );
 }
+

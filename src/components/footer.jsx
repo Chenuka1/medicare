@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-left">
-          <p>© 2023 Medilink Hospitals PLC. All rights reserved.</p>
+          <p>© 2025 Medicare Hospitals PLC. All rights reserved.</p>
         </div>
 
         <div className="footer-center">
