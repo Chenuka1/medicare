@@ -154,7 +154,7 @@ const Adduser = () => {
 
   // Filter users based on search query
   const filteredUsers = users.filter(user =>
-    user.MUD_USER_NAME.toLowerCase().includes(searchQuery.toLowerCase())
+    user.MUD_FULL_NAME.toLowerCase().includes(searchQuery.toLowerCase()) || user.MUD_USER_NAME.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Prepare data for the chart

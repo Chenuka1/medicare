@@ -115,6 +115,8 @@ export default function DailyAppointment() {
             {selectedSlotId && (
                 <div className="appointment-table-container">
                     <h2>Appointments available for this timeslot</h2>
+
+                    {/* <input type="search" placeholder="search using the patient name"/> */}
                     <table className="appointments-table">
                         <thead>
                             <tr>

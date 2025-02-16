@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -27,7 +24,7 @@ const Addpatient = ({ patientCode }) => {
         MPD_CREATED_DATE: new Date().toISOString(),
         MPD_UPDATED_DATE: null,
     });
-    const role = localStorage.getItem('Role'); 
+    const role = localStorage.getItem('Role');
 
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -47,14 +44,24 @@ const Addpatient = ({ patientCode }) => {
         }
     }, [patientCode]);
 
+   
+
     const fetchPatientDetails = async (patientCode) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/Patient/${patientCode}`);
-            setFormData(response.data);
+            let patientData = response.data;
+    
+            // Convert datetime format to YYYY-MM-DD
+            if (patientData.MPD_BIRTHDAY) {
+                patientData.MPD_BIRTHDAY = patientData.MPD_BIRTHDAY.split("T")[0]; // Extract YYYY-MM-DD
+            }
+    
+            setFormData(patientData);
         } catch (error) {
             console.error("Error fetching patient details:", error);
         }
     };
+    
 
     const validateGuardianContact = (contact) => {
         const contactPattern = /^[0-9]{10}$/; // Validates 10-digit contact number
@@ -73,6 +80,27 @@ const Addpatient = ({ patientCode }) => {
         const { name, value } = e.target;
         let errors = { ...formErrors };
 
+        let formattedValue = value;
+
+        if (name === "MPD_BIRTHDAY" && value) {
+            const date = new Date(value);
+            const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
+            const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+            const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
+            formattedValue = `${year}-${month}-${day}`;
+        }
+
+        if (name === "MPD_BIRTHDAY") {
+            const datePattern = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
+    
+            if (value && !datePattern.test(value)) {
+                errors.birthday = "Invalid date format. Use YYYY-MM-DD.";
+            } else {
+                errors.birthday = ""; // Clear error if valid
+            }
+        }
+
+
         // Allow empty email without error
         if (name === 'MPD_EMAIL') {
             errors.email = value.trim() === '' || validateEmail(value) ? '' : 'Invalid email format';
@@ -86,6 +114,9 @@ const Addpatient = ({ patientCode }) => {
         if (name === 'MPD_NIC_NO') {
             errors.nic = value.trim() === '' || validateNIC(value) ? '' : 'Invalid NIC format';
         }
+
+
+
 
         setFormData({
             ...formData,
@@ -195,7 +226,8 @@ const Addpatient = ({ patientCode }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>City <span className="required">*</span></label>
+                                {/* <label>City <span className="required">*</span></label> */}
+                                <label>City</label>
                                 <input
                                     type="text"
                                     name="MPD_CITY"
@@ -225,16 +257,40 @@ const Addpatient = ({ patientCode }) => {
                                 />
                                 {formErrors.guardianContact && <div className="error-message">{formErrors.guardianContact}</div>}
                             </div>
-                            <div className='form-group'>
-                                <label>Enter your birthday <span className='required'></span></label>
+                            <div className="form-group">
+                                <label>Enter your birthday</label>
                                 <input
-                                    type="date"
-                                    name="MPD_BIRTHDAY"
-                                    value={formData.MPD_BIRTHDAY}
-                                    onChange={handleChange}
+                                    type="text"
+                                    placeholder="YYYY-MM-DD"
+                                    value={formData.MPD_BIRTHDAY || ""}
+                                    onChange={(e) => {
+                                        let value = e.target.value.replace(/[^0-9-]/g, ""); // Allow only numbers and hyphens
 
+                                        // Ensure the format stays correct (YYYY-MM-DD)
+                                        if (value.length === 4 || value.length === 7) {
+                                            value += "-";
+                                        }
+
+                                        // Allow only valid lengths
+                                        if (value.length <= 10) {
+                                            setFormData({ ...formData, MPD_BIRTHDAY: value });
+                                        }
+                                    }}
                                 />
+                                {formErrors.birthday && <div className="error-message">{formErrors.birthday}</div>}
                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
                             <div className='form-group'>
                                 <label>Enter your email <span className='required'></span></label>
                                 <input
@@ -277,7 +333,7 @@ const Addpatient = ({ patientCode }) => {
                         style={{ marginBottom: "20px" }}
                         className="submit-button"
                         onClick={(e) => {
-                            if (role !== "Doc" &&  role !== "Admin") {
+                            if (role !== "Doc" && role !== "Admin") {
                                 e.preventDefault(); // Prevent form submission
                                 alert("Sorry you dont have permission to edit details.");
                             }

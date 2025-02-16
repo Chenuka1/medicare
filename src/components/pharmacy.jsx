@@ -80,7 +80,7 @@ export default function Pharmacy() {
   };
 
   const filteredPatients = pharmacypatients.filter((patient) =>
-    patient.MPD_MOBILE_NO.includes(searchTerm)
+    patient.MPD_MOBILE_NO.includes(searchTerm) || patient.MPD_PATIENT_NAME.includes(searchTerm)
   );
 
   const calculateTotalDrugFee = (medicines) => {
@@ -138,7 +138,7 @@ export default function Pharmacy() {
 
       <input
         type="search"
-        placeholder="Search patient by contact..."
+        placeholder="Search patient by name or contact..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"

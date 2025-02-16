@@ -127,6 +127,19 @@
 }
 
 
+@media (max-width: 400px) {
+  .screen3 {
+      margin: 20px auto;
+      max-width: 300px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .screen3 {
+      max-width: 300px;
+  }
+}
 
 
 /* @media (max-width: 480px) {
@@ -154,7 +167,7 @@
 .screen0,
 .screen1,
 .screen2,
-.screen3,
+
 .screen4 {
   max-width: 600px;
   margin: 20px auto; /* Centers the screen */  

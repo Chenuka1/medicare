@@ -666,7 +666,7 @@ const Addrecord = () => {
             >
               <option value="">Select Treatment Status</option>
               <option value="C">Completed</option>
-              <option value="N">Not Completed</option>
+              {/* <option value="N">Not Completed</option> */}
               <option value="P">Preparation completed</option>
             </select>
           </div>

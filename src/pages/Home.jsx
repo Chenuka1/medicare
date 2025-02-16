@@ -8,16 +8,14 @@ import { useNavigate } from "react-router-dom";
 import PatientAppointment from "../components/patientappoinment";
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import doctor_consultation from '../assets/doctor_consultation.webp';
-import image from "../assets/feedback.png";
-import image2 from '../assets/medical-record.jpg';
-import image3 from '../assets/appoinment.avif';
+import doctor_consultation from '../assets/hdoctor_consultation.jpeg';
+
 import image4 from '../assets/online-medical.png'
 import image5 from '../assets/pharmacy_new.png'
 import image6 from '../assets/medical-prescription.png'
-import doctor_image from "../assets/doctor_image.jpg";
-import doctor4 from '../assets/doctor4.webp';
-import doctor3 from '../assets/doctor3.png';
+
+import doctor4 from '../assets/doctorsample.jpeg';
+import doctor3 from '../assets/doctorsample2.jpeg';
 
 
 
