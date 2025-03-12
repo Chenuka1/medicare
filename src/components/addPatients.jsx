@@ -80,25 +80,25 @@ const Addpatient = ({ patientCode }) => {
         const { name, value } = e.target;
         let errors = { ...formErrors };
 
-        let formattedValue = value;
+        // let formattedValue = value;
 
-        if (name === "MPD_BIRTHDAY" && value) {
-            const date = new Date(value);
-            const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
-            const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
-            const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
-            formattedValue = `${year}-${month}-${day}`;
-        }
+        // if (name === "MPD_BIRTHDAY" && value) {
+        //     const date = new Date(value);
+        //     const year = date.getFullYear().toString().slice(-2); // Last 2 digits of the year
+        //     const month = String(date.getMonth() + 1).padStart(2, "0"); // Ensure 2-digit month
+        //     const day = String(date.getDate()).padStart(2, "0"); // Ensure 2-digit day
+        //     formattedValue = `${year}-${month}-${day}`;
+        // }
 
-        if (name === "MPD_BIRTHDAY") {
-            const datePattern = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
+        // if (name === "MPD_BIRTHDAY") {
+        //     const datePattern = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD format
     
-            if (value && !datePattern.test(value)) {
-                errors.birthday = "Invalid date format. Use YYYY-MM-DD.";
-            } else {
-                errors.birthday = ""; // Clear error if valid
-            }
-        }
+        //     if (value && !datePattern.test(value)) {
+        //         errors.birthday = "Invalid date format. Use YYYY-MM-DD.";
+        //     } else {
+        //         errors.birthday = ""; // Clear error if valid
+        //     }
+        // }
 
 
         // Allow empty email without error
@@ -237,7 +237,7 @@ const Addpatient = ({ patientCode }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Guardian <span className="required">*</span></label>
+                                <label>Guardian </label>
                                 <input
                                     type="text"
                                     name="MPD_GUARDIAN"
@@ -247,7 +247,7 @@ const Addpatient = ({ patientCode }) => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label>Guardian Contact No <span className="required">*</span></label>
+                                <label>Guardian Contact No </label>
                                 <input
                                     type="text"
                                     name="MPD_GUARDIAN_CONTACT_NO"
@@ -260,22 +260,12 @@ const Addpatient = ({ patientCode }) => {
                             <div className="form-group">
                                 <label>Enter your birthday</label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     placeholder="YYYY-MM-DD"
-                                    value={formData.MPD_BIRTHDAY || ""}
-                                    onChange={(e) => {
-                                        let value = e.target.value.replace(/[^0-9-]/g, ""); // Allow only numbers and hyphens
-
-                                        // Ensure the format stays correct (YYYY-MM-DD)
-                                        if (value.length === 4 || value.length === 7) {
-                                            value += "-";
-                                        }
-
-                                        // Allow only valid lengths
-                                        if (value.length <= 10) {
-                                            setFormData({ ...formData, MPD_BIRTHDAY: value });
-                                        }
-                                    }}
+                                    name="MPD_BIRTHDAY"
+                                    value={formData.MPD_BIRTHDAY}
+                                    onChage={handleChange}
+                                    
                                 />
                                 {formErrors.birthday && <div className="error-message">{formErrors.birthday}</div>}
                             </div>

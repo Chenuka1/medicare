@@ -66,6 +66,7 @@
   width: 100%;
   max-width: 400px;
   margin: auto;
+  
 }
 
 .right-login-page-container label {
@@ -100,6 +101,21 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
+.right-login-page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Added box shadow */
+}
+
+
+
+
 
 .right-login-page-container button:hover {
   background-color: #0056b3;
@@ -166,8 +182,11 @@
   .form-content {
     max-width: 100%;
     padding: 10px;
+    /* max-height: 200px; */
   }
 }
+
+
 
 .popup-patient {
   position: fixed;
@@ -209,6 +228,25 @@
 .close-button:hover {
   color: #ff0000;
 }
+
+.card-login {
+  width: 400px;
+  height:500px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.profile-image2 {
+  width: 200PX;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
 
 .popup-content-patient h3 {
   font-size: 1.5rem;

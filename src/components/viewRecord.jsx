@@ -109,7 +109,7 @@ export default function ViewRecord() {
 
 
 
-                    <p style={{textAlign:"center", fontWeight:"bold"}}>Treatment number: {details.Treatmentnumber}</p>
+                    {/* <p style={{textAlign:"center", fontWeight:"bold"}}>Treatment number: {details.Treatmentnumber}</p> */}
 
                     {details.MTD_CHANNEL_NO && (
                         <p style={{ textAlign: "center", fontWeight: "bold" }}>

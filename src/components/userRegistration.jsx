@@ -11,7 +11,7 @@ export default function Userregistration() {
     MPD_ADDRESS: '',
     MPD_PASSWORD: '',
     MPD_PATIENT_NAME: '',
-    MPD_BIRTHDAY: '',
+    MPD_BIRTHDAY:null,
   });
 
   const [formErrors, setFormErrors] = useState({

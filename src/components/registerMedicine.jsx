@@ -76,11 +76,7 @@ export default function Registermedicine() {
             );
         }, timeoutDuration);
     };
-
-
-
-
-
+ 
 
     const refreshMedicines = async () => {
         try {
@@ -97,50 +93,7 @@ export default function Registermedicine() {
     };
 
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     const data = {
-    //         ...form,
-    //         MMC_REORDER_LEVEL: parseFloat(form.MMC_REORDER_LEVEL) || 0,
-    //     };
-
-    //     try {
-    //         let newMedicine = null;
-    //         if (editMode) {
-    //             await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/Material/${form.MMC_MATERIAL_CODE}`, data);
-    //             alert("Medicine updated successfully");
-
-    //             // Update the existing medicine in the list
-    //             newMedicine = { ...form, isNew: true };
-    //             setMedicines((prev) =>
-    //                 prev.map((medicine) =>
-    //                     medicine.MMC_MATERIAL_CODE === newMedicine.MMC_MATERIAL_CODE ? newMedicine : medicine
-    //                 )
-    //             );
-    //         } else {
-    //             const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/Material`, data);
-    //             alert("Medicine registered successfully");
-
-    //             // Add isNew property and prepend the medicine
-    //             newMedicine = { ...response.data, isNew: true };
-    //             setMedicines((prev) => [newMedicine, ...prev]);
-    //         }
-
-    //         // Highlight and scroll to the newly added or updated medicine
-    //         highlightAndScrollToRow(newMedicine.MMC_MATERIAL_CODE);
-
-    //         handleReset();
-    //         setPopup(false);
-    //         setError("");
-    //     } catch (error) {
-    //         if (error.response && error.response.data && error.response.data.error) {
-    //             setError(error.response.data.error);
-    //         } else {
-    //             setError("An unexpected error occurred. Please try again.");
-    //         }
-    //         console.error("Error submitting the medicine:", error);
-    //     }
-    // };
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -260,7 +213,7 @@ export default function Registermedicine() {
                     <thead>
                         <tr>
                             <th>Name of Drug</th>
-                            <th>Unit</th>
+                            <th >Unit</th>
                             <th>Quantity</th>
                             <th>Status</th>
                             <th >Rate (Rs)</th>
@@ -276,7 +229,7 @@ export default function Registermedicine() {
                                     ref={(el) => (rowRefs.current[medicine.MMC_MATERIAL_CODE] = el)}
                                 >
                                     <td>{medicine.MMC_DESCRIPTION}</td>
-                                    <td >{medicine.MMC_UNIT}</td>
+                                    <td style={{textAlign:"right"}}>{medicine.MMC_UNIT}</td>
                                     <td style={{ textAlign: "right" }}>{medicine.MMC_REORDER_LEVEL}</td>
                                     <td>{medicine.MMC_STATUS}</td>
                                     <td style={{ textAlign: "right" }}>

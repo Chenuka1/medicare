@@ -13,8 +13,8 @@ export default function Doctorprofile() {
     MUD_EMAIL: "",
     MUD_CREATED_DATE: "",
     MUD_NIC_NO: "",
-    MUD_PASSWORD:"",
-    MUD_FULL_NAME:"",
+    MUD_PASSWORD: "",
+    MUD_FULL_NAME: "",
   });
   const [imagePreview, setImagePreview] = useState("default-profile-icon.png");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -39,7 +39,7 @@ export default function Doctorprofile() {
         const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/User/${id}`);
         const data = response.data;
 
-        // Update MUD_USER_TYPE to "Doctor" if the response returns "doc"
+        // Update MUD_USER_TYPE to "Doctor" if the response returns "doc     "
         if (data.MUD_USER_TYPE === "Doc") {
           data.MUD_USER_TYPE = "Doctor";
         }
@@ -64,7 +64,7 @@ export default function Doctorprofile() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
-  
+
     if (name === "MUD_CONTACT") {
       const isValidContact = /^[0-9]{10}$/.test(value);
       setErrors((prevErrors) => ({
@@ -85,7 +85,7 @@ export default function Doctorprofile() {
       }));
     }
   };
-  
+
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -100,27 +100,33 @@ export default function Doctorprofile() {
       alert("Please fix validation errors before updating the profile.");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("MUD_USER_ID", id);
     formData.append("MUD_USER_NAME", userDetails.MUD_USER_NAME);
-    formData.append(
-      "MUD_USER_TYPE",
-      userDetails.MUD_USER_TYPE === "Doctor" ? "Doc" : userDetails.MUD_USER_TYPE
-    );
+
+    let userType = userDetails.MUD_USER_TYPE;
+    if (userType === "Doctor") {
+      userType = "Doc";
+    } else if (userType === "Pharmacy user") {
+      userType = "Phuser";
+    }
+    formData.append("MUD_USER_TYPE", userType);
+
     formData.append("MUD_SPECIALIZATION", userDetails.MUD_SPECIALIZATION);
+    formData.append("MUD_FULL_NAME", userDetails.MUD_FULL_NAME);
     formData.append("MUD_STATUS", userDetails.MUD_STATUS);
     formData.append("MUD_NIC_NO", userDetails.MUD_NIC_NO);
     formData.append("MUD_CONTACT", userDetails.MUD_CONTACT);
     formData.append("MUD_EMAIL", userDetails.MUD_EMAIL);
     formData.append("MUD_PASSWORD", userDetails.MUD_PASSWORD);
-    formData.append("MUD_FULL_NAME",userDetails.MUD_FULL_NAME);
-    
-  
+
+
+
     if (selectedFile) {
       formData.append("MUD_PHOTO", selectedFile);
     }
-  
+
     try {
       setLoading(true);
       await axios.put(
@@ -137,13 +143,14 @@ export default function Doctorprofile() {
       if (error.response && error.response.status === 409) {
         alert(error.response.data); // Display the error message from the server
       } else {
-        alert("Failed to update profile.");
+        console.error("Error:", error);
+        alert("An unknown error occurred.");
       }
     } finally {
       setLoading(false);
     }
   };
-  
+
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -186,12 +193,12 @@ export default function Doctorprofile() {
             <label>Password</label>
             <input
 
-            type="password"
-            name="MUD_PASSWORD"
-            value={userDetails.MUD_PASSWORD || ""}
-            onChange={handleInputChange}  
-            
-            
+              type="password"
+              name="MUD_PASSWORD"
+              value={userDetails.MUD_PASSWORD || ""}
+              onChange={handleInputChange}
+
+
             />
 
           </div>
@@ -201,12 +208,12 @@ export default function Doctorprofile() {
             <label>Name</label>
             <input
 
-            type="text"
-            name="MUD_FULL_NAME"
-            value={userDetails.MUD_FULL_NAME || ""}
-            onChange={handleInputChange}
-            placeholder="Enter your full name"
-               
+              type="text"
+              name="MUD_FULL_NAME"
+              value={userDetails.MUD_FULL_NAME || ""}
+              onChange={handleInputChange}
+              placeholder="Enter your full name"
+
             />
           </div>
           <div className="form-group">
@@ -267,11 +274,11 @@ export default function Doctorprofile() {
             {errors.MUD_CONTACT && <span className="error-text">{errors.MUD_CONTACT}</span>}
           </div>
 
-         
+
         </div>
 
         <button onClick={updateUserProfile} className="update-profile-button" disabled={loading}>
-          {loading ? "Updating..." : "Edit Profile"}
+          {loading ? "Updating..." : "Save"}
         </button>
       </div>
     </div>
